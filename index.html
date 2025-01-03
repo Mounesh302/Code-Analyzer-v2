@@ -198,14 +198,19 @@
       }
 
       // =======================
-      // 2. MERMAID INIT
+      // 2. MERMAID INIT (v11.4)
       // =======================
       function initializeMermaid() {
         if (!window.mermaidInitialized) {
           const script = document.createElement('script');
-          script.src = 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js';
+          // Force version 11.4
+          script.src = 'https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js';
           script.onload = () => {
-            mermaid.initialize({ startOnLoad: true, theme: 'default', logLevel: 5 });
+            mermaid.initialize({
+              startOnLoad: true, 
+              theme: 'default',
+              logLevel: 5
+            });
             window.mermaidInitialized = true;
           };
           document.head.appendChild(script);
@@ -287,12 +292,14 @@ ${code}`
             body: JSON.stringify({
               model: "claude-3-haiku-20240307",
               max_tokens: 4096,
-              system: "You are a diagram generation expert. Generate ONLY a Mermaid diagram without any additional text.",
+              system: `You are a diagram generation expert. Generate ONLY a Mermaid diagram (compatible with Mermaid v11.4 syntax) without any additional text.`,
               messages: [{
                 role: "user",
                 content: [{
                   type: "text",
-                  text: `Generate a Mermaid ${diagramTypes[type]} based on this code. Respond with ONLY the Mermaid code, no other text:
+                  text: `Generate a Mermaid ${diagramTypes[type]} based on this code. 
+Respond with ONLY the Mermaid code, no other text. 
+Ensure it is valid for Mermaid v11.4.
 
 ${code}`
                 }]
